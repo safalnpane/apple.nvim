@@ -1,5 +1,5 @@
 local palette = require("apple.palette")
-local util = require("apple.util")
+local themeSwitch = require("apple.theme-switch")
 
 local M = {}
 
@@ -12,7 +12,16 @@ function M.setup()
   vim.o.termguicolors = true
   vim.g.colors_name = "apple"
 
-  local colors = util.is_dark() and palette.dark or palette.light
+  local colors = {}
+  themeSwitch.setup(function(mode)
+    if mode == "dark" then
+      vim.o.background = "dark"
+      colors = palette.dark
+    else
+      vim.o.background = "light"
+      colors = palette.light
+    end
+  end)
 
   require("apple.highlights").setup(colors)
   require("apple.integrations.treesitter").setup(colors)
