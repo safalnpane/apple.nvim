@@ -1,29 +1,78 @@
 local M = {}
 
 function M.setup(c)
-  local set = vim.api.nvim_set_hl
+  local hl = function(group, opts)
+    vim.api.nvim_set_hl(0, group, opts)
+  end
 
-  -- UI
-  set(0, "Normal", { fg = c.fg, bg = c.bg })
-  set(0, "CursorLine", { bg = "#2a2a2a" })
-  set(0, "Visual", { bg = c.selection })
-  set(0, "LineNr", { fg = c.gray })
-  set(0, "CursorLineNr", { fg = c.fg })
-  set(0, "StatusLine", { fg = c.fg, bg = "#2a2a2a" })
+  -----------------------------------------------------------------------------
+  -- Core Editor UI
+  -----------------------------------------------------------------------------
+  hl("Normal", { fg = c.fg, bg = c.bg })
+  hl("NormalNC", { fg = c.fg, bg = c.bg })
+  hl("CursorLine", { bg = c.cursor_line })
+  hl("Visual", { bg = c.selection })
+  hl("LineNr", { fg = c.line_nr })
+  hl("CursorLineNr", { fg = c.fg, bold = true })
+  hl("SignColumn", { bg = c.bg })
 
-  -- Syntax
-  set(0, "Comment", { fg = c.gray, italic = true })
-  set(0, "Keyword", { fg = c.magenta })
-  set(0, "String", { fg = c.green })
-  set(0, "Function", { fg = c.blue })
-  set(0, "Identifier", { fg = c.cyan })
-  set(0, "Type", { fg = c.yellow })
-  set(0, "Constant", { fg = c.bright_yellow })
-  set(0, "Number", { fg = c.bright_yellow })
-  set(0, "Boolean", { fg = c.bright_yellow })
+  -----------------------------------------------------------------------------
+  -- Base Vim Syntax
+  -----------------------------------------------------------------------------
+  hl("Comment", { fg = c.comment, italic = true })
+  hl("Constant", { fg = c.number })
+  hl("String", { fg = c.string })
+  hl("Character", { fg = c.string })
+  hl("Number", { fg = c.number })
+  hl("Boolean", { fg = c.keyword, bold = true })
+  hl("Float", { fg = c.number })
 
-  set(0, "Error", { fg = c.bright_red })
-  set(0, "WarningMsg", { fg = c.yellow })
+  hl("Identifier", { fg = c.fg })
+  hl("Function", { fg = c.call })
+  hl("Statement", { fg = c.keyword, bold = true })
+  hl("Conditional", { fg = c.keyword, bold = true })
+  hl("Repeat", { fg = c.keyword, bold = true })
+  hl("Operator", { fg = c.fg })
+  hl("Keyword", { fg = c.keyword, bold = true })
+
+  hl("PreProc", { fg = c.preproc })
+  hl("Type", { fg = c.type, bold = true })
+  hl("Special", { fg = c.keyword })
+
+  -----------------------------------------------------------------------------
+  -- TreeSitter Highlights (Xcode Look & Feel)
+  -----------------------------------------------------------------------------
+  hl("@keyword", { fg = c.keyword, bold = true })
+  hl("@keyword.function", { fg = c.keyword, bold = true })
+  hl("@keyword.return", { fg = c.keyword, bold = true })
+
+  hl("@type", { fg = c.type, bold = true })
+  hl("@type.builtin", { fg = c.type, bold = true })
+  
+  hl("@function", { fg = c.call })
+  hl("@function.call", { fg = c.call })
+  hl("@method", { fg = c.call })
+  hl("@method.call", { fg = c.call })
+
+  hl("@property", { fg = c.property })
+  hl("@field", { fg = c.property })
+  hl("@variable.member", { fg = c.property })
+  hl("@variable", { fg = c.fg })
+  hl("@parameter", { fg = c.fg })
+
+  hl("@string", { fg = c.string })
+  hl("@number", { fg = c.number })
+  hl("@comment", { fg = c.comment, italic = true })
+  hl("@punctuation.delimiter", { fg = c.gray })
+  hl("@punctuation.bracket", { fg = c.fg })
+
+  -----------------------------------------------------------------------------
+  -- LSP Diagnostics
+  -----------------------------------------------------------------------------
+  hl("DiagnosticError", { fg = c.red })
+  hl("DiagnosticWarn", { fg = c.yellow })
+  hl("DiagnosticInfo", { fg = c.blue })
+  hl("DiagnosticHint", { fg = c.type })
 end
 
 return M
