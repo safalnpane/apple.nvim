@@ -28,7 +28,7 @@ function M.setup(callback)
 
   if M._stdout then
     vim.uv.read_start(M._stdout, function(err, data)
-      assert(not, err, err)
+      assert(not err, err)
       if data then
         local mode = vim.trim(data)
         if mode == "dark" or mode == "light" then
